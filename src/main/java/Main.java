@@ -20,10 +20,23 @@ public class Main
 		/* A string with zillow.com URL + user zip codes to get local house prices */
 		String zillowURL = "https://www.zillow.com/homes/" + zipcode + "_rb/";
 		Document doc = Jsoup.connect(zillowURL).get();
-		Elements elements = doc.select("div.list-card-price");
+	
+		/* The house prices are in the CSS class div.list-card-prices, */
+		/* doc.select will return the elements in that class. */
+		Elements elements = doc.select(".list-card-price");
 
 		System.out.println(zillowURL);
 		System.out.println(elements.size());
+		System.out.println(doc);
 
-	}	
-}
+		/* Get the price of each element (each house price) from zillow.com */ 
+		for (Element e : elements)
+		{
+			System.out.println(e.text());
+		}
+		
+		Conversions coverter = new Conversions();
+		coverter.ConvertPricesToIntegers(elements);
+
+	} // end main method	
+} // end Main class
